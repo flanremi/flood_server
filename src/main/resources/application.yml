@@ -1,0 +1,9 @@
+server:
+  port: 8088
+  address: 0.0.0.0
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jiaxing_flood?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: 123456
