@@ -3,6 +3,8 @@ package cn.bit.nss.jiaxing_flood.service.impl;
 import cn.bit.nss.jiaxing_flood.MyUtils;
 import cn.bit.nss.jiaxing_flood.mapper.CameraMapper;
 import cn.bit.nss.jiaxing_flood.mapper.HotCircleMapper;
+import cn.bit.nss.jiaxing_flood.model.dto.StreamInDTO;
+import cn.bit.nss.jiaxing_flood.model.dto.StreamPlayDTO;
 import cn.bit.nss.jiaxing_flood.model.entity.Camera;
 import cn.bit.nss.jiaxing_flood.model.entity.HotCircle;
 import cn.bit.nss.jiaxing_flood.model.entity.Result;
@@ -26,6 +28,13 @@ public class CameraServiceImpl implements CameraService {
     private HotCircleMapper hotCircleMapper;
 
 
+    @Override
+    public Result getStream(StreamInDTO in) {
+        String url = MyUtils.hostAPi + "/play/forcePlay/" + in.getChannelId() + "/" + in.getDeviceId();
+        RestTemplate restTemplate = new RestTemplate();
+        StreamPlayDTO play = restTemplate.getForObject(url, StreamPlayDTO.class);
+        return new Result(200,"ok", play.getData());
+    }
 
     @Override
     public Result getCameraList() {
@@ -36,13 +45,13 @@ public class CameraServiceImpl implements CameraService {
             for (int i = 0; i < cameras.size(); i++) {
                 Camera camera = cameras.get(i);
                 CameraVO cameraVO = new CameraVO(camera.getId(),camera.getCode(),camera.getAlertLevel(),camera.getLat()
-                        ,camera.getLng(),camera.getAddress(),null);
-                String channelId = camera.getStream().split("_")[0];
-                String deviceId = camera.getStream().split("_")[1];
-                String url = MyUtils.hostAPi + "api/play/forcePlay/" + channelId + "/" + deviceId;
-                RestTemplate restTemplate = new RestTemplate();
-                Response
-                ResponseBean responseBean = restTemplate.postForObject(url, requestBean, ResponseBean.class);
+                        ,camera.getLng(),camera.getAddress(),camera.getStream());
+//                String channelId = camera.getStream().split("_")[0];
+//                String deviceId = camera.getStream().split("_")[1];
+//                String url = MyUtils.hostAPi + "/play/forcePlay/" + channelId + "/" + deviceId;
+//                RestTemplate restTemplate = new RestTemplate();
+//                StreamPlay play = restTemplate.getForObject(url, StreamPlay.class);
+//                cameraVO.setStream(play.getData().getFlv());
                 cameraVOs.add(cameraVO);
             }
             return new Result(200, "ok", cameraVOs);

@@ -1,5 +1,5 @@
 //package cn.bit.nss.jiaxing_flood.model.dto;
-//  服务层接收客户端传参的数据对象
+//  服务层接收客户端传参的数据对象,以及服务端和服务端之间交互的对象
 //public class LoginDTO {
 //
 //    private String username;

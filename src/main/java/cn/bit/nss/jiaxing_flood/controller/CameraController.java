@@ -1,5 +1,6 @@
 package cn.bit.nss.jiaxing_flood.controller;
 
+import cn.bit.nss.jiaxing_flood.model.dto.StreamInDTO;
 import cn.bit.nss.jiaxing_flood.model.entity.Result;
 import cn.bit.nss.jiaxing_flood.service.intf.CameraService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,9 @@ public class CameraController {
     }
 
 
-
+    @PostMapping(value = "/get_stream")
+    @CrossOrigin
+    public Result getStream(@RequestBody StreamInDTO in){
+        return cameraService.getStream(in);
+    }
 }
