@@ -1,5 +1,6 @@
 package cn.bit.nss.jiaxing_flood.service.impl;
 
+import cn.bit.nss.jiaxing_flood.MyUtils;
 import cn.bit.nss.jiaxing_flood.mapper.CameraMapper;
 import cn.bit.nss.jiaxing_flood.mapper.HotCircleMapper;
 import cn.bit.nss.jiaxing_flood.model.entity.Camera;
@@ -11,6 +12,7 @@ import cn.bit.nss.jiaxing_flood.service.intf.CameraService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,8 @@ public class CameraServiceImpl implements CameraService {
     @Resource
     private HotCircleMapper hotCircleMapper;
 
+
+
     @Override
     public Result getCameraList() {
         QueryWrapper<Camera> wrapper = new QueryWrapper<>();
@@ -32,7 +36,13 @@ public class CameraServiceImpl implements CameraService {
             for (int i = 0; i < cameras.size(); i++) {
                 Camera camera = cameras.get(i);
                 CameraVO cameraVO = new CameraVO(camera.getId(),camera.getCode(),camera.getAlertLevel(),camera.getLat()
-                        ,camera.getLng(),camera.getAddress(),camera.getStream());
+                        ,camera.getLng(),camera.getAddress(),null);
+                String channelId = camera.getStream().split("_")[0];
+                String deviceId = camera.getStream().split("_")[1];
+                String url = MyUtils.hostAPi + "api/play/forcePlay/" + channelId + "/" + deviceId;
+                RestTemplate restTemplate = new RestTemplate();
+                Response
+                ResponseBean responseBean = restTemplate.postForObject(url, requestBean, ResponseBean.class);
                 cameraVOs.add(cameraVO);
             }
             return new Result(200, "ok", cameraVOs);
@@ -50,9 +60,7 @@ public class CameraServiceImpl implements CameraService {
             for (int i = 0; i < hotCircles.size(); i++) {
                 HotCircle hotCircle = hotCircles.get(i);
                 HotCircleVO hotCircleVO = new HotCircleVO(hotCircle);
-                hotCircleVO.setColor("#33ff000000");
-                hotCircleVO.setRadius(200.0);
-                String[] strCameras = hotCircle.getCameras().split(",");
+                String[] strCameras = hotCircle.getCameras().substring(1, hotCircle.getCameras().length() - 1).split(",");
                 QueryWrapper<Camera> cameraQueryWrapper = new QueryWrapper<>();
                 for (int j = 0; j < strCameras.length; j++) {
                     if(j < strCameras.length - 1){
@@ -63,6 +71,9 @@ public class CameraServiceImpl implements CameraService {
                 }
                 List<Camera> cameras = cameraMapper.selectList(cameraQueryWrapper);
                 hotCircleVO.setCameras(cameras);
+                for (int j = 0; j < cameras.size(); j++) {
+                    hotCircleVO.setAlertLevel(hotCircleVO.getAlertLevel() + cameras.get(j).getAlertLevel());
+                }
                 hotCircleVOs.add(hotCircleVO);
             }
             return new Result(200, "ok", hotCircleVOs);

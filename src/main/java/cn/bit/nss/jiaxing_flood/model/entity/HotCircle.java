@@ -8,6 +8,15 @@ public class HotCircle {
     private String cameras;
     private Double lat;
     private Double lng;
+    private Double radius;
+
+    public Double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Double radius) {
+        this.radius = radius;
+    }
 
     public HotCircle() {
     }
@@ -44,10 +53,11 @@ public class HotCircle {
         this.lng = lng;
     }
 
-    public HotCircle(Integer id, String cameras, Double lat, Double lng) {
+    public HotCircle(Integer id, String cameras, Double lat, Double lng, Double radius) {
         this.id = id;
         this.cameras = cameras;
         this.lat = lat;
         this.lng = lng;
+        this.radius = radius;
     }
 }

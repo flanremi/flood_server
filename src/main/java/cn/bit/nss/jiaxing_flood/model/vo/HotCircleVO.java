@@ -11,25 +11,34 @@ public class HotCircleVO {
     private Double lat;
     private Double lng;
     private Double radius;
-    private String color;
+    private int alertLevel;
     private List<Camera> cameras;
 
     public HotCircleVO(HotCircle hotCircle){
         this.id = hotCircle.getId();
         this.lat = hotCircle.getLat();
         this.lng = hotCircle.getLng();
+        this.radius = hotCircle.getRadius();
     }
 
-    public HotCircleVO(Integer id, Double lat, Double lng, Double radius, String color, List<Camera> cameras) {
+    public HotCircleVO(Integer id, Double lat, Double lng, Double radius, int alertLevel, List<Camera> cameras) {
         this.id = id;
         this.lat = lat;
         this.lng = lng;
+        this.alertLevel = alertLevel;
         this.radius = radius;
-        this.color = color;
         this.cameras = cameras;
     }
 
     public HotCircleVO() {
+    }
+
+    public Double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Double radius) {
+        this.radius = radius;
     }
 
     public Integer getId() {
@@ -56,20 +65,13 @@ public class HotCircleVO {
         this.lng = lng;
     }
 
-    public Double getRadius() {
-        return radius;
+
+    public int getAlertLevel() {
+        return alertLevel;
     }
 
-    public void setRadius(Double radius) {
-        this.radius = radius;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
+    public void setAlertLevel(int alertLevel) {
+        this.alertLevel = alertLevel;
     }
 
     public List<Camera> getCameras() {
