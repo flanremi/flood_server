@@ -1,5 +1,6 @@
 package cn.bit.nss.jiaxing_flood.controller;
 
+import cn.bit.nss.jiaxing_flood.model.dto.CameraDTO;
 import cn.bit.nss.jiaxing_flood.model.dto.StreamInDTO;
 import cn.bit.nss.jiaxing_flood.model.entity.Result;
 import cn.bit.nss.jiaxing_flood.service.intf.CameraService;
@@ -14,8 +15,8 @@ public class CameraController {
 
     @PostMapping(value = "/get_camera_list")
     @CrossOrigin
-    public Result getCameraList(){
-        return cameraService.getCameraList();
+    public Result getCameraList(@RequestBody CameraDTO cameraDTO){
+        return cameraService.getCameraList(cameraDTO);
     }
 
     @PostMapping(value = "/get_hot_circle")

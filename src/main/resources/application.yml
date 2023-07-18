@@ -1,9 +1,11 @@
 server:
-  port: 8088
+  port: 9898
   address: 0.0.0.0
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jiaxing_flood?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+#    url: jdbc:mysql://localhost:3306/jiaxing_flood?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://1.39.33.201:3306/jiaxing_flood?useUnicode=true&characterEncoding=UTF8&rewriteBatchedStatements=true&serverTimezone=PRC&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+

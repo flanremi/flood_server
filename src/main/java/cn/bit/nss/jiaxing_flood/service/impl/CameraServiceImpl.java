@@ -3,6 +3,7 @@ package cn.bit.nss.jiaxing_flood.service.impl;
 import cn.bit.nss.jiaxing_flood.MyUtils;
 import cn.bit.nss.jiaxing_flood.mapper.CameraMapper;
 import cn.bit.nss.jiaxing_flood.mapper.HotCircleMapper;
+import cn.bit.nss.jiaxing_flood.model.dto.CameraDTO;
 import cn.bit.nss.jiaxing_flood.model.dto.StreamInDTO;
 import cn.bit.nss.jiaxing_flood.model.dto.StreamPlayDTO;
 import cn.bit.nss.jiaxing_flood.model.entity.Camera;
@@ -13,9 +14,14 @@ import cn.bit.nss.jiaxing_flood.model.vo.HotCircleVO;
 import cn.bit.nss.jiaxing_flood.service.intf.CameraService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,15 +36,27 @@ public class CameraServiceImpl implements CameraService {
 
     @Override
     public Result getStream(StreamInDTO in) {
-        String url = MyUtils.hostAPi + "/play/forcePlay/" + in.getChannelId() + "/" + in.getDeviceId();
+        String url = MyUtils.hostAPi + "/play/forcePlay/" + in.getDeviceId() + "/" + in.getChannelId();
         RestTemplate restTemplate = new RestTemplate();
-        StreamPlayDTO play = restTemplate.getForObject(url, StreamPlayDTO.class);
-        return new Result(200,"ok", play.getData());
+
+        // restTemplate是同步的请求方式
+        try {
+            StreamPlayDTO play = restTemplate.getForObject(url, StreamPlayDTO.class);
+            return new Result(200,"ok", play.getData());
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(500, "channelid或deviceid找不到目标:" + e.getMessage(), null);
+        }
+
     }
 
     @Override
-    public Result getCameraList() {
+    public Result getCameraList(CameraDTO cameraDTO) {
         QueryWrapper<Camera> wrapper = new QueryWrapper<>();
+        wrapper.gt("lat", cameraDTO.getLeftLat())
+        .gt("lng", cameraDTO.getLeftLng())
+        .lt("lat", cameraDTO.getRightLat())
+        .lt("lng", cameraDTO.getRightLng());
         List<Camera> cameras = cameraMapper.selectList(wrapper);
         if (cameras != null){
             List<CameraVO> cameraVOs = new ArrayList<>();
