@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CameraServiceImpl implements CameraService {
@@ -47,6 +48,7 @@ public class CameraServiceImpl implements CameraService {
             e.printStackTrace();
             return new Result(500, "channelid或deviceid找不到目标:" + e.getMessage(), null);
         }
+//        return new Result(200, "ok", new Random().nextInt(0,100) > 50? "":"http://192.168.23.128:8080/live/test1.flv");
 
     }
 
