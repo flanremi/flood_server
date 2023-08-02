@@ -14,4 +14,6 @@ public interface CameraService {
 
     Result getStream(StreamInDTO in);
 
+    Result timeTask();
+
 }

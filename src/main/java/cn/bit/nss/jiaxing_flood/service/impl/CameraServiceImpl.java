@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
@@ -51,6 +52,29 @@ public class CameraServiceImpl implements CameraService {
 //        return new Result(200, "ok", new Random().nextInt(0,100) > 50? "":"http://192.168.23.128:8080/live/test1.flv");
 
     }
+
+    @Override
+    @Scheduled(cron ="*/30 * * * * ?")
+    public Result timeTask() {
+        QueryWrapper<Camera> wrapper = new QueryWrapper<>();
+        List<Camera> cameras = cameraMapper.selectList(wrapper);
+        for(int i = 0; i < cameras.size(); i++) {
+            String camera = cameras.get(i).getStream();
+            String[] str = camera.split("_");
+            String deviceId = str[1];
+            String channelId = str[0];
+            StreamInDTO streamInDTO = new StreamInDTO();
+            streamInDTO.setChannelId(channelId);
+            streamInDTO.setDeviceId(deviceId);
+            getStream(streamInDTO);
+        }
+
+
+        return null;
+
+
+    }
+
 
     @Override
     public Result getCameraList(CameraDTO cameraDTO) {

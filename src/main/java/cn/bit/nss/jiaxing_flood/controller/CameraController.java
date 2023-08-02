@@ -31,4 +31,6 @@ public class CameraController {
     public Result getStream(@RequestBody StreamInDTO in){
         return cameraService.getStream(in);
     }
+
+
 }
