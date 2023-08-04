@@ -58,6 +58,8 @@ public class CameraServiceImpl implements CameraService {
     public Result timeTask() {
         QueryWrapper<Camera> wrapper = new QueryWrapper<>();
         List<Camera> cameras = cameraMapper.selectList(wrapper);
+        System.out.println("定时任务启动");
+        System.out.println(cameras.size());
         for(int i = 0; i < cameras.size(); i++) {
             String camera = cameras.get(i).getStream();
             String[] str = camera.split("_");
@@ -84,10 +86,14 @@ public class CameraServiceImpl implements CameraService {
         .lt("lat", cameraDTO.getRightLat())
         .lt("lng", cameraDTO.getRightLng());
         List<Camera> cameras = cameraMapper.selectList(wrapper);
+        System.out.println(cameras.size());
         if (cameras != null){
             List<CameraVO> cameraVOs = new ArrayList<>();
             for (int i = 0; i < cameras.size(); i++) {
                 Camera camera = cameras.get(i);
+                System.out.println(i + ":  " + camera.toString());
+                System.out.println("-------------------------------------------");
+
                 CameraVO cameraVO = new CameraVO(camera.getId(),camera.getCode(),camera.getAlertLevel(),camera.getLat()
                         ,camera.getLng(),camera.getAddress(),camera.getStream());
 //                String channelId = camera.getStream().split("_")[0];

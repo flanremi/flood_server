@@ -81,4 +81,17 @@ public class Camera {
     public void setStream(String stream) {
         this.stream = stream;
     }
+
+    @Override
+    public String toString() {
+        return "Camera{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", alertLevel=" + alertLevel +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", address='" + address + '\'' +
+                ", stream='" + stream + '\'' +
+                '}';
+    }
 }

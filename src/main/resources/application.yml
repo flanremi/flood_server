@@ -7,7 +7,7 @@ spring:
 #    url: jdbc:mysql://localhost:3306/jiaxing_flood?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     #url: jdbc:mysql://localhost:3306/jiaxing_flood?useUnicode=true&characterEncoding=UTF8&rewriteBatchedStatements=true&serverTimezone=PRC&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
 
-    url: jdbc:mysql://1.39.33.201:3306/jiaxing_flood2?useUnicode=true&characterEncoding=UTF8&rewriteBatchedStatements=true&serverTimezone=PRC&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://1.39.33.201:3306/jiaxing_flood3?useUnicode=true&characterEncoding=UTF8&rewriteBatchedStatements=true&serverTimezone=PRC&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
     username: root
-    password: Kang15520767092
+    #password: Kang15520767092
     password: 123456
